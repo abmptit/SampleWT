@@ -1,6 +1,5 @@
 ﻿namespace SeleniumWebTest
 {
-    using System.Linq;
     using NUnit.Framework;
     using SeleniumClient;
     using OpenQA.Selenium;
@@ -10,8 +9,8 @@
 
     public class FrameTestFixture
     {
-        private readonly string _iframeTestPageUri = @"D:\sources\foundation-testing\TalentSoft.Foundation.Web.Tests.Nunit\BrowserResources\Resources\Html\componentsTestIntoIFrame.html";
         private readonly string _iframeWithComponents = @"TestedSite/componentsTestIntoIFrame.html";
+        private readonly string _iframeId = "iframeWebTest";
 
         [Test]
         public void Selenium_ClickOnRadioButtonIntoIFrame_WithChangingPadding()
@@ -20,12 +19,9 @@
             {
                 webDriver.ResizeWindow(SeleniumConfig.BrowserSize);
                 webDriver.Navigate().GoToUrl(Path.Combine(ConfigHelper.GetCodeLocation(), _iframeWithComponents));
-                string frameId = "iframeWebTest";
-                var frame = webDriver.FindElement(OpenQA.Selenium.By.Id(frameId));
-                (webDriver as IJavaScriptExecutor).ExecuteScript($"document.getElementById('{frameId}').style.padding = 0");
+                var frame = webDriver.FindElement(OpenQA.Selenium.By.Id(_iframeId));
+                (webDriver as IJavaScriptExecutor).ExecuteScript($"document.getElementById('{_iframeId}').style.padding = 0");
                 webDriver.SwitchTo().Frame(frame);
-                var radiosGroupButtonValue = By.XPath("//input[@name='sex'][@type='radio']");
-                var radiosGroupButtonLabel = new ByChained(radiosGroupButtonValue, By.XPath("./following-sibling::span"));
                 var element = new ByChained(By.XPath("//input[@name='sex'][@type='radio']"), By.XPath("./self::input[@value='male']"));
 
                 var webElement = webDriver.FindElement(element);
@@ -42,7 +38,6 @@
                     if (el.Selected)
                     {
                         selectedValue = el.GetAttribute("value");
-                        Assert.AreEqual("male", selectedValue);
                     }
                 }
                 Assert.AreEqual("male", selectedValue);
@@ -56,11 +51,8 @@
             {
                 webDriver.ResizeWindow(SeleniumConfig.BrowserSize);
                 webDriver.Navigate().GoToUrl(Path.Combine(ConfigHelper.GetCodeLocation(), _iframeWithComponents));
-                string frameId = "iframeWebTest";
-                var frame = webDriver.FindElement(OpenQA.Selenium.By.Id(frameId));
+                var frame = webDriver.FindElement(OpenQA.Selenium.By.Id(_iframeId));
                 webDriver.SwitchTo().Frame(frame);
-                var radiosGroupButtonValue = By.XPath("//input[@name='sex'][@type='radio']");
-                var radiosGroupButtonLabel = new ByChained(radiosGroupButtonValue, By.XPath("./following-sibling::span"));
                 var element = new ByChained(By.XPath("//input[@name='sex'][@type='radio']"), By.XPath("./self::input[@value='male']"));
 
                 var webElement = webDriver.FindElement(element);
@@ -77,24 +69,21 @@
                     if (el.Selected)
                     {
                         selectedValue = el.GetAttribute("value");
-                        Assert.AreEqual("male", selectedValue);
                     }
                 }
                 Assert.AreEqual("male", selectedValue);
             }
-
         }
 
         [Test]
-        [TestCase("buttonTest2", "i m buttonTest2")]
+        [TestCase("buttonTest2", "i m buttonTest2 ")]
         public void Selenium_ClickOnButtonIntoIFrame_WithoutChangingPadding(string idButton, string alertText)
         {
             using (var webDriver = WebDriverHelper.CreateSession())
             {
                 webDriver.ResizeWindow(SeleniumConfig.BrowserSize);
                 webDriver.Navigate().GoToUrl(Path.Combine(ConfigHelper.GetCodeLocation(),_iframeWithComponents));
-                string frameId = "iframeWebTest";
-                var frame = webDriver.FindElement(OpenQA.Selenium.By.Id(frameId));
+                var frame = webDriver.FindElement(OpenQA.Selenium.By.Id(_iframeId));
                 webDriver.SwitchTo().Frame(frame);
               
                 var element = By.Id(idButton);
@@ -106,6 +95,8 @@
                     action.Click(webElement).Build().Perform();
                 }
 
+                var alert = webDriver.SwitchTo().Alert();
+                Assert.IsNotNull(alert);
                 var actualText = webDriver.SwitchTo().Alert().Text;
 
                
