@@ -6,6 +6,7 @@
     using OpenQA.Selenium;
     using OpenQA.Selenium.Support.PageObjects;
     using OpenQA.Selenium.Interactions;
+    using System.IO;
 
     public class FrameTestFixture
     {
@@ -13,12 +14,12 @@
         private readonly string _iframeWithComponents = @"TestedSite/componentsTestIntoIFrame.html";
 
         [Test]
-        public void Selenium_ClickOnButtonIntoIFrame_WithChangingPadding()
+        public void Selenium_ClickOnRadioButtonIntoIFrame_WithChangingPadding()
         {
             using (var webDriver = WebDriverHelper.CreateSession())
             {
                 webDriver.ResizeWindow(SeleniumConfig.BrowserSize);
-                webDriver.Navigate().GoToUrl(_iframeWithComponents);
+                webDriver.Navigate().GoToUrl(Path.Combine(ConfigHelper.GetCodeLocation(), _iframeWithComponents));
                 string frameId = "iframeWebTest";
                 var frame = webDriver.FindElement(OpenQA.Selenium.By.Id(frameId));
                 (webDriver as IJavaScriptExecutor).ExecuteScript($"document.getElementById('{frameId}').style.padding = 0");
@@ -49,12 +50,12 @@
         }
 
         [Test]
-        public void Selenium_ClickOnButtonIntoIFrame_WithoutChangingPadding()
+        public void Selenium_ClickOnRadioButtonIntoIFrame_WithoutChangingPadding()
         {
             using (var webDriver = WebDriverHelper.CreateSession())
             {
                 webDriver.ResizeWindow(SeleniumConfig.BrowserSize);
-                webDriver.Navigate().GoToUrl(_iframeWithComponents);
+                webDriver.Navigate().GoToUrl(Path.Combine(ConfigHelper.GetCodeLocation(), _iframeWithComponents));
                 string frameId = "iframeWebTest";
                 var frame = webDriver.FindElement(OpenQA.Selenium.By.Id(frameId));
                 webDriver.SwitchTo().Frame(frame);
@@ -80,6 +81,35 @@
                     }
                 }
                 Assert.AreEqual("male", selectedValue);
+            }
+
+        }
+
+        [Test]
+        [TestCase("buttonTest2", "i m buttonTest2")]
+        public void Selenium_ClickOnButtonIntoIFrame_WithoutChangingPadding(string idButton, string alertText)
+        {
+            using (var webDriver = WebDriverHelper.CreateSession())
+            {
+                webDriver.ResizeWindow(SeleniumConfig.BrowserSize);
+                webDriver.Navigate().GoToUrl(Path.Combine(ConfigHelper.GetCodeLocation(),_iframeWithComponents));
+                string frameId = "iframeWebTest";
+                var frame = webDriver.FindElement(OpenQA.Selenium.By.Id(frameId));
+                webDriver.SwitchTo().Frame(frame);
+              
+                var element = By.Id(idButton);
+                var webElement = webDriver.FindElement(element);
+                if (webElement.Displayed && webElement.Enabled)
+                {
+                    //webDriver.FindElement(element).Click();
+                    var action = new Actions(webDriver);
+                    action.Click(webElement).Build().Perform();
+                }
+
+                var actualText = webDriver.SwitchTo().Alert().Text;
+
+               
+                Assert.AreEqual(alertText, actualText);
             }
 
         }
