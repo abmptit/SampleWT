@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+/packages/*
+/.vs/*
+/SeleniumWebTest/obj/*
+/SeleniumWebTests/obj/*
+/SeleniumWebTest/bin/*
+/SeleniumClient/obj/*
+/SampleWT/obj/*

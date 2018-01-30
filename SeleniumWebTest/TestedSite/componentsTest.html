@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>Components test page</title>
+</head>
+<body>
+    <fieldset>
+        <legend>controls</legend>
+        <label for="select">select value</label>
+        <select id="select">
+            <option value="a">First choice</option>
+            <option value="b">Second choice</option>
+            <option value="c">Third choice</option>
+        </select><br />
+
+        <label for="text">select text</label>
+        <input type="text" id="text" value="Default value" /><br />
+
+        <label for="date">date field</label>
+        <input type="date" id="date" value="01/01/2000" /><br />
+        <label for="check">check value</label>
+        <input type="checkbox" id="check" value="Check value" /><br />
+        <label for="textarea">text area</label>
+        <textarea id="textarea">default text</textarea><br />
+
+        <label for="radio">Radio Button</label>
+        <input id="sex_0" type="radio" name="sex" value="male"><span>Male</span><br />
+        <input id="sex_1" type="radio" name="sex" value="female"><span>Female</span><br />
+        <input id="sex_2" type="radio" name="sex" value="nandy"><span>Nandy</span><br />
+        <a>Veuillez cliquer</a><br />
+
+        <label for="alertclick">TestAlert</label>
+        <input id="alertclick" type="button" onclick="return setTimeout(function () { alert('ok') },2000);" value="Display alert" />
+    </fieldset>
+</body>
+</html>
