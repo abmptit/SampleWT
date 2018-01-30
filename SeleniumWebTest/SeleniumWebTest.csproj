@@ -65,7 +65,7 @@
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="SeleniumClient\SeleniumConfig.cs" />
     <Compile Include="SeleniumClient\WebDriverHelper.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="FrameTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

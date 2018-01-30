@@ -33,5 +33,12 @@
             }
             return null;
         }
+
+        public static string GetCodeLocation()
+        {
+            var codeLocation = System.IO.Path.GetDirectoryName(
+                        System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+            return codeLocation;
+        }
     }
 }

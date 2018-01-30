@@ -14,8 +14,6 @@
 
         public static bool GridEnabled => ConfigHelper.GetBoolValue("Selenium.Grid.Enabled");
 
-        //public static string ChromeDriverLocation => ConfigHelper.GetStringValue("Selenium.ChromeDriver.Location");
-
         public static string ChromeDriverLocation
         {
             get
@@ -27,8 +25,6 @@
                 return chromeDriverLocation;
             }
         }
-            
-            //=> ConfigHelper.GetStringValue("Selenium.ChromeDriver.Location");
 
         public static Size? BrowserSize => ConfigHelper.GetSizeValue("Selenium.Browser.Size");
     }
